@@ -522,10 +522,10 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('signupModal')">&times;</span>
             <h3 class="glow">Create Account</h3>
-            <input type="text" placeholder="Full Name" id="signupName" />
-            <input type="email" placeholder="Email" id="signupEmail" />
+            <input type="text" placeholder="Full Name" id="signupName" required/>
+            <input type="email" placeholder="Email" id="signupEmail" required/>
             <div style="position:relative;">
-                <input type="password" placeholder="Password" id="signupPass" />
+                <input type="password" placeholder="Password" id="signupPass" required/>
                 <span class="eye" onclick="togglePassword('signupPass')">
                     <i class="fas fa-eye"></i>
                 </span>
@@ -538,9 +538,9 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('loginModal')">&times;</span>
             <h3 class="glow">Login</h3>
-            <input type="email" placeholder="Email" id="loginEmail" />
+            <input type="email" placeholder="Email" id="loginEmail" required/>
             <div style="position:relative;">
-                <input type="password" placeholder="Password" id="loginPass" />
+                <input type="password" placeholder="Password" id="loginPass" required/>
                 <span class="eye" onclick="togglePassword('loginPass')">
                     <i class="fas fa-eye"></i>
                 </span>
@@ -590,7 +590,8 @@
         }
 
         function login() {
-            window.location.href = 'https://www.facebook.com';
+            // Change the redirection to the dashboard page
+            window.location.href = 'dashboard.html';
         }
 
         // Live Cashouts
