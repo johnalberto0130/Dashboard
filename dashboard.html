@@ -470,7 +470,7 @@
             <i class="ri-user-line" style="font-size: 1.5rem;"></i>
             <div class="profile-menu" id="profileMenu">
                 <button onclick="openModal('paymentModal')"><i class="ri-wallet-line"></i> Payment Method</button>
-                <button onclick="alert('Logged out')"><i class="ri-logout-box-line"></i> Log out</button>
+                <button onclick="logout()"><i class="ri-logout-box-line"></i> Log out</button>
             </div>
         </div>
     </header>
@@ -739,11 +739,6 @@
             this.reset();
         });
 
-        window.onload = () => {
-            openModal('giftModal');
-            cycleSocialProof();
-        };
-
         const socialProofs = [
             '🇪🇬 Ahmed from Egypt earned $57 ✅',
             '🇦🇱 Katerina from Albania earned $32 ✅',
@@ -771,6 +766,28 @@
                 }
             });
             setTimeout(cycleSocialProof, 3000);
+        }
+
+        // 1. جعل النافذة المنبثقة تظهر مرة واحدة
+        window.onload = () => {
+            const hasSeenGift = localStorage.getItem('hasSeenGift');
+            if (!hasSeenGift) {
+                openModal('giftModal');
+                localStorage.setItem('hasSeenGift', 'true');
+            }
+            cycleSocialProof();
+        };
+
+        // 2. تفعيل زر تسجيل الخروج
+        function logout() {
+            // حذف أي بيانات خاصة بالمستخدم من الذاكرة المحلية (Local Storage)
+            // هذا أمر ضروري لإتمام عملية "تسجيل الخروج"
+            localStorage.removeItem('hasSeenGift');
+            // يمكنك إضافة المزيد من العناصر هنا مثل 'userToken' أو 'userData'
+            
+            // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول أو الصفحة الرئيسية
+            // يجب عليك استبدال هذا المسار بمسار صفحة تسجيل الدخول الفعلية لموقعك
+            window.location.href = 'index.html'; // أو أي مسار آخر لصفحة تسجيل الدخول
         }
     </script>
 </body>
