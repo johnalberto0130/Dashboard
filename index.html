@@ -318,6 +318,25 @@
         .popup button {
             margin-top: 20px;
         }
+        
+        /* New styles for validation message box */
+        .validation-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4d4d;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            text-align: center;
+        }
 
         .cashout-container {
             display: flex;
@@ -365,10 +384,12 @@
                 transform: scale(1);
                 color: var(--primary-color);
             }
+
             50% {
                 transform: scale(1.05);
                 color: #ff3333;
             }
+
             100% {
                 transform: scale(1);
                 color: var(--primary-color);
@@ -379,6 +400,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -389,6 +411,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -398,6 +421,9 @@
 </head>
 
 <body>
+    <!-- New element for validation messages -->
+    <div class="validation-message" id="validationMessage"></div>
+
     <div class="promo-bar">
         Register now and get $5 Registration Bonus
     </div>
@@ -574,14 +600,34 @@
                 icon.className = 'fas fa-eye';
             }
         }
+        
+        // Function to show a temporary validation message
+        function showValidationMessage(message) {
+            const msgBox = document.getElementById('validationMessage');
+            msgBox.textContent = message;
+            msgBox.style.display = 'block';
+            gsap.to(msgBox, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+            setTimeout(() => {
+                gsap.to(msgBox, { opacity: 0, duration: 0.5, ease: 'power2.in', onComplete: () => {
+                    msgBox.style.display = 'none';
+                }});
+            }, 3000);
+        }
 
         function createAccount() {
+            const fullName = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPass').value.trim();
+
+            if (!fullName || !email || !password) {
+                showValidationMessage('Please fill in all fields.');
+                return;
+            }
+
             closeModal('signupModal');
             document.getElementById('successPopup').style.display = 'block';
-            const signupEmail = document.getElementById('signupEmail').value;
-            const signupPass = document.getElementById('signupPass').value;
-            document.getElementById('loginEmail').value = signupEmail;
-            document.getElementById('loginPass').value = signupPass;
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('loginPass').value = password;
         }
 
         function gotoLogin() {
@@ -590,6 +636,14 @@
         }
 
         function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPass').value.trim();
+
+            if (!email || !password) {
+                showValidationMessage('Please fill in all fields.');
+                return;
+            }
+
             // Change the redirection to the dashboard page
             window.location.href = 'dashboard.html';
         }
@@ -703,4 +757,5 @@
         });
     </script>
 </body>
+
 </html>
